@@ -17,8 +17,10 @@ app.use(cors({
     origin:"http://localhost:3000",
     credentials:true
 }))
+app.use('/',require('./Controllers/publicontroller'))
+app.use('/auth',require('./Controllers/authController'))
 
-app.post("/ask", async (req, res) => {
+/* app.post("/ask", async (req, res) => {
     const prompt = req.body.prompt;
     console.log(prompt)
     try {
@@ -70,7 +72,7 @@ app.post('/completion',async(req,res)=>{
         console.log(error.message);
       }
 
-})
+}) */
 
 
 server.listen(3030,()=>{console.log("Server started running");});

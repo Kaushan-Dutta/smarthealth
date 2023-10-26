@@ -3,7 +3,7 @@ import Register from '@/api/Register'
 import Link from 'next/link';
 
 const register = () => {
-  const {loading,registerList}=Register();
+  const {loading,registerList,useregister}=Register();
 
   return (
     <div className='container-center'>
@@ -14,6 +14,7 @@ const register = () => {
             <input {...obj} className='w-full outline-none p-2 '/>
           </div>
         ))}
+        <button onClick={useregister} className='primary-btn w-1/3 mx-auto'>Register</button>
         <p>Not Registered?&nbsp;<Link href="/login" className='text-shade1 font-bold'>Click Here</Link></p>
       </div>
     </div>

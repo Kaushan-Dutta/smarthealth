@@ -3,7 +3,7 @@ import Login from '../api/Login';
 import Link from 'next/link';
 
 const login = () => {
-  const {loading,loginList}=Login();
+  const {loading,loginList,userlogin}=Login();
 
   return (
     <div className='container-center'>
@@ -14,6 +14,7 @@ const login = () => {
             <input {...obj} className='w-full outline-none p-2 '/>
           </div>
         ))}
+        <button className='primary-btn w-1/3 mx-auto' onClick={userlogin}>Login</button>
         <p>Not Registered?&nbsp;<Link href="/register" className='text-shade1 font-bold'>Click Here</Link></p>
       </div>
     </div>

@@ -1,5 +1,5 @@
 import React,{useState,useCallback,useEffect} from 'react'
-
+import axios from 'axios';
 
 const Register = () => {
   const [loading,setLoading]=useState();
@@ -33,9 +33,22 @@ const Register = () => {
         }
     },
   ]
-  
+  const useregister=useCallback(async()=>{
+    try{
+      const response=await axios.post('http://localhost:3030/auth/signup',{
+        email:email,
+        password:password
+      })
+      console.log(response.data.message);
+      window.location.href="/login";
+    }
+
+    catch(err){
+      console.log(err.message);
+    }
+  },[email,password])
   return (
-    {registerList,loading}
+    {registerList,loading,useregister}
   )
 }
 

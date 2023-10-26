@@ -1,8 +1,11 @@
 const mongoose=require('mongoose');
+require('../connectDb');
+
 const userSchema=new mongoose.Schema({
     entity:{
         type:String,
-        required:true
+        required:true,
+        enum:['patient','admin','doctor']
     },
     password:{
         type:String,
@@ -38,7 +41,8 @@ const doctorSchema=new mongoose.Schema({
 const adminSchema=new mongoose.Schema({
     userId:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'UserModel'
+        ref:'UserModel',
+        required:true
     },
     appointment:{
         type:mongoose.Schema.Types.ObjectId,
@@ -61,10 +65,10 @@ const appointmentSchema=new mongoose.Schema({
     },
 
 })
-const userModel=new mongoose.Model('UserModel',userSchema);
-const patientModel=new mongoose.Model('PatientModel',patientSchema);
-const doctorModel=new mongoose.Model('DoctorModel',doctorSchema);
-const adminModel=new mongoose.Model('AdminModel',adminSchema);
-const appointmentModel=new mongoose.Model('AppointmentModel',appointmentSchema);
+const userModel=new mongoose.model('UserModel',userSchema);
+const patientModel=new mongoose.model('PatientModel',patientSchema);
+const doctorModel=new mongoose.model('DoctorModel',doctorSchema);
+const adminModel=new mongoose.model('AdminModel',adminSchema);
+const appointmentModel=new mongoose.model('AppointmentModel',appointmentSchema);
 
 module.exports={userModel,patientModel,doctorModel,adminModel,appointmentModel}
