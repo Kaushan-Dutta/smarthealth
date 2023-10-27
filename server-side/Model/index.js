@@ -36,7 +36,9 @@ const doctorSchema=new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'AppointmentModel'
     },
-    
+    name:String,
+    specialist:String,
+    patients:Number    
 })
 const adminSchema=new mongoose.Schema({
     userId:{
@@ -65,10 +67,19 @@ const appointmentSchema=new mongoose.Schema({
     },
 
 })
+const doubtSchema=new mongoose.Schema({
+    comment:{type:String},
+    date:{type:String,default:()=>{
+        const date=new Date();
+        return date.getMonth()+"/"+date.getDate()+"/"+date.getFullYear();
+    }},
+    postedBy:{type:String}
+})
 const userModel=new mongoose.model('UserModel',userSchema);
 const patientModel=new mongoose.model('PatientModel',patientSchema);
 const doctorModel=new mongoose.model('DoctorModel',doctorSchema);
 const adminModel=new mongoose.model('AdminModel',adminSchema);
 const appointmentModel=new mongoose.model('AppointmentModel',appointmentSchema);
+const doubtModel=new mongoose.model('DoubtModel',doubtSchema);
 
-module.exports={userModel,patientModel,doctorModel,adminModel,appointmentModel}
+module.exports={userModel,patientModel,doctorModel,adminModel,appointmentModel,doubtModel}
