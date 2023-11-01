@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useCallback } from "react";
+import axios from 'axios';
 
 const Ai = () => {
   const [loading, isLoading] = useState(false);
-  const [askai, setAskai] = useState([]);
+  const [askai, setAskai] = useState('');
 
   const [aianswerArray, setAianswerArray] = useState([
    /*  {entity:'user',
@@ -58,15 +59,15 @@ const Ai = () => {
       try {
           isLoading(true);
           console.log(askai);
-          console.log("AI question...",aianswerArray);
           setAianswerArray((prevArray) => [
             ...prevArray,
             { entity: 'user', comment: askai },
           ]);
-          
+          const askdoubt=await axios.post('http://localhost:3030/askai/askdoubt',{prompt:askai})
+          console.log("............",askdoubt.data);
           setAianswerArray((prevArray) => [
             ...prevArray,
-            { entity: 'ai', comment: 'I will do' },
+            { entity: 'ai', comment: askdoubt.data.message },
           ]);  
           setAskai('')
           isLoading(false);
@@ -78,12 +79,15 @@ const Ai = () => {
   );
   const predictDisease = useCallback(
     async (e) => {
-      try {
-        console.log(askai)
-        setAskai('')
-      } catch (err) {
-        console.log(err);
-      }
+        try {
+          console.log(askai);
+          const askdoubt=await axios.post('http://localhost:3030/askai/predict',{prompt:askai})
+          console.log(askdoubt.data.message);
+          setAianswer(askdoubt.data.message);
+        }
+        catch (err) {
+          console.log(err);
+        }
     },
     [askai]
   );

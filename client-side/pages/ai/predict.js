@@ -1,8 +1,10 @@
 import React from "react";
 import Ai from "@/api/Ai";
+import axios from "axios";
 
 const predict = () => {
-  const {loading,disease,predictDisease,askai,setAskai}=Ai();
+  const {loading,disease,predictDisease,askai,setAskai,aianswer, setAianswer}=Ai();
+  
   return (
   <div className="text-black base-container">
     <p className=' text-4xl font-alata'><b>Predict the possible &nbsp;<span className='text-shade2'>cause,</span> </b></p>
@@ -28,7 +30,7 @@ const predict = () => {
       </div>
       <button onClick={predictDisease} className="primary-btn w-[200px] mx-auto">Predict</button>
       <div className="text-lg font-inter w-2/3 my-5">
-        <p className="font-bold">Fast Refresh had to perform a full reload when ./pages/ai/predict.js changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload </p>
+        <p className="font-bold">{aianswer}</p>
       </div>
     </section>
   </div>);
