@@ -102,12 +102,20 @@ const Ai = () => {
   );
   const prescibeReport = useCallback(
     async (e) => {
+      console.log("mbxsckjahcfkjhk");
+      const formData = new FormData();
       try {
+        formData.append('file', askai);
+        console.log(formData);
+        const askdoubt=await axios.post('http://localhost:3030/askai/prescribe',formData, {headers: {
+          'Content-Type': 'multipart/form-data',
+        }},)
+        setPrescibe(askdoubt.data.message);
       } catch (err) {
         console.log(err);
       }
     },
-    [aianswer]
+    [askai]
   );
 
   return {

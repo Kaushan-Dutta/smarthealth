@@ -1,13 +1,32 @@
 const express=require('express');
+const multer = require('multer');
+const Middleware=require('../Middleware/index');
+
 const { Configuration, OpenAIApi } = require("openai");
 const router=express.Router();
 
+
+
 require("dotenv").config();
+router.use(express.static('uploads'));
 
 const configuration = new Configuration({
     apiKey: process.env.OPENAI_KEY,
 })
 const openai = new OpenAIApi(configuration);
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/'); 
+  },
+  filename: (req, file, cb) => {
+    req.app.locals.file=file.originalname;
+
+    cb(null, file.originalname); 
+  },
+});
+
+const upload = multer({ storage: storage });
 
 const getResponse=async(prompt)=>{
     try{
@@ -17,9 +36,9 @@ const getResponse=async(prompt)=>{
             max_tokens: 1000,
             temperature: 0,
           });
-          console.log(response);
+          //console.log(response);
           const completion = response.data.choices[0].text;
-          console.log(completion);
+          //console.log(completion);
           return completion
     }
     catch(err){
@@ -61,22 +80,20 @@ router.post("/predict", async (req, res) => {
       return console.log(error.message);
     }
 });
-router.post("/prescribe", async (req, res) => {
-    const prompt = ' '+req.body.prompt;
-    console.log(prompt)
+router.post("/prescribe", Middleware.filename,upload.single('file'), async (req, res) => {
+    //console.log("]]]]]]]]]]]]]]]]]",req.app.locals.file)
     try {
-        /* const fs = require('fs');
+         const fs = require('fs');
 
-        const filePath = './file.txt'; // Adjust the path to your file
+         const filePath = `uploads/${req.app.locals.file}`; // Adjust the path to your file
         
         
           const data = fs.readFileSync(filePath, 'utf8');
           console.log('File contents:');
-          console.log(data);
-        */
-      if (prompt == null) {
-        throw new Error("Uh oh, no prompt was provided");
-      }
+          //console.log(data);
+          const prompt = ' Analyze the medical problem I am having. '+data;
+          console.log(prompt);
+    
       
       return res.status(200).json({
         success: true,
